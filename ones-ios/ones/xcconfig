@@ -1,0 +1,24 @@
+// Common settings
+ARCHS = $(ARCHS_STANDARD)
+VALID_ARCHS = arm64
+
+// // Settings for iOS Simulator
+// #if TARGET_OS_SIMULATOR
+// ARCHS[sdk=iphonesimulator*] = x86_64
+// VALID_ARCHS[sdk=iphonesimulator*] = x86_64
+// LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(PODS_LIBRARY_BUILD_DIR)/ones/lib
+// OTHER_LDFLAGS[sdk=iphonesimulator*] = -lones_ios_x86
+// #endif
+
+// // Settings for arm64
+// #if !TARGET_OS_SIMULATOR
+// ARCHS[sdk=iphoneos*] = arm64
+// VALID_ARCHS[sdk=iphoneos*] = arm64
+// LIBRARY_SEARCH_PATHS[sdk=iphoneos*] = $(PODS_LIBRARY_BUILD_DIR)/ones/lib
+// OTHER_LDFLAGS[sdk=iphoneos*] = -lones_ios_arm64
+// #endif
+
+ARCHS[sdk=iphoneos*] = arm64
+VALID_ARCHS[sdk=iphoneos*] = arm64
+LIBRARY_SEARCH_PATHS[sdk=iphoneos*] = $(PODS_LIBRARY_BUILD_DIR)/ones/lib
+OTHER_LDFLAGS[sdk=iphoneos*] = -lones_ios_arm64
