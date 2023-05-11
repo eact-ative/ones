@@ -47,7 +47,7 @@ pub extern "C" fn get_resource(
         Ok(path) => match path {
             Some(path) => ReturnStr {
                 data: COption::Some(CString::new(path).unwrap().into_raw()),
-                code: ReturnCode::FAIL,
+                code: ReturnCode::SUCCESS,
             },
             None => ReturnStr {
                 data: COption::None,
@@ -95,4 +95,9 @@ pub extern "C" fn get_app_info(
             }
         }
     }
+}
+
+#[no_mangle]
+pub extern "C" fn free_context(this: *const CContext) {
+    todo!()
 }
