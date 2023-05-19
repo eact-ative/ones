@@ -68,19 +68,8 @@ pub struct AppInfo {
 #[serde(rename_all = "camelCase")]
 pub struct MetaValue {
     content: String,
-    value_type: MetaValueType,
+    value_type: String,
     description: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-enum MetaValueType {
-    #[serde(rename = "0")]
-    TypeNumber,
-    #[serde(rename = "1")]
-    TypeString,
-    #[serde(rename = "2")]
-    TypeBool,
 }
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -412,7 +401,16 @@ mod tests {
                     "addTime": "2023-02-03T09:27:45.000Z",
                     "entrySiteID": "750e198198974a218a3e4c47cdb89d56",
                     "delFlag": 0,
-                    "metaInfo": {},
+                    "metaInfo": {
+                        "custom_value": {
+                            "id": 1,
+                            "appId": "fbbca092cdce4694a3d43f1ba002b6f1",
+                            "description": "your customed value",
+                            "name": "custom_value",
+                            "valueType": "string",
+                            "content": "2.5.0"
+                        }
+                    },
                     "entry": {
                         "id": "0c0ed7fd985049d5a3dd9ae827e06e65",
                         "appId": "fbbca092cdce4694a3d43f1ba002b6f1",
