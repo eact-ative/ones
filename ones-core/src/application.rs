@@ -68,7 +68,7 @@ pub struct AppInfo {
 #[serde(rename_all = "camelCase")]
 pub struct MetaValue {
     content: String,
-    value_type: String,
+    value_type: i32, // can't use enum https://github.com/serde-rs/serde/issues/745#issuecomment-657662001
     description: String,
 }
 #[derive(Debug, Serialize, Deserialize)]
@@ -248,12 +248,13 @@ impl Context {
                         cache_ctrl,
                     });
                 }
-            }
-            // hash code not match or resource.path not exist, clean record
-            conn.execute(
+            } else {
+                // hash code not match or resource.path not exist, clean record
+                conn.execute(
                 &format!("DELETE FROM {} WHERE id = ?1", TABLE_NAME_RESOURCE),
                 params![id],
-            )?;
+                )?;
+            }
         }
 
         if resource.is_none() {
@@ -407,7 +408,7 @@ mod tests {
                             "appId": "fbbca092cdce4694a3d43f1ba002b6f1",
                             "description": "your customed value",
                             "name": "custom_value",
-                            "valueType": "string",
+                            "valueType": 1,
                             "content": "2.5.0"
                         }
                     },
@@ -502,8 +503,8 @@ mod tests {
             "INSERT INTO Resource (url, path, hash_code, cache_ctrl) VALUES (?1, ?2, ?3, ?4)",
             params![url, file_path, hash_code, cache_ctrl],
         )?;
-        let result = rm.get_resource(url, disable_cache)?;
-        assert_eq!(result, Some(file_path));
+        let result = rm.get_resource(url, disable_cache)?.unwrap();
+        assert_eq!(result, file_path);
 
         // Test getting a resource that exists but is not cached
         let url = &format!("{}/{}", mock_server.base_url(), "test.js");
